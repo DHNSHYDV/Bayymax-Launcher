@@ -1,0 +1,42 @@
+{
+  "name": "bayymax-launcher",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "electron": "electron .",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dist": "powershell -Command \"try { Get-Process 'Bayymax Launcher' -ErrorAction SilentlyContinue | Stop-Process -Force } catch {}; vite build; if ($?) { electron-builder }; powershell -Command \\\"Copy-Item -Path 'release/win-unpacked/*' -Destination 'C:/Users/dhanu/Desktop/Bayymax Launcher' -Recurse -Force\\\"\""
+  },
+  "build": {
+    "appId": "com.stellar.launcher",
+    "productName": "Bayymax Launcher",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "main.cjs",
+      "preload.cjs"
+    ],
+    "win": {
+      "target": "dir",
+      "requestedExecutionLevel": "requireAdministrator",
+      "forceCodeSigning": false
+    }
+  },
+  "devDependencies": {
+    "cross-env": "^10.1.0",
+    "electron": "^41.2.1",
+    "electron-builder": "^26.8.1",
+    "electron-packager": "^17.1.2",
+    "rcedit": "^5.0.2",
+    "vite": "^8.0.9"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

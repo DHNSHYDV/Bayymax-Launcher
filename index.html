@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bayymax Launcher</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Phase 2: Cinematic Intro Overlay -->
+    <div id="intro-overlay">
+      <video id="intro-video">
+        <source src="file:///C:/Users/dhanu/Downloads/intro_1.mp4" type="video/mp4">
+      </video>
+    </div>
+    <!-- Background layer for smooth transitions -->
+    <div id="bg-layer-1" class="bg-layer active"></div>
+    <div id="bg-layer-2" class="bg-layer"></div>
+    
+    <!-- Gaming background overlays -->
+    <div class="gaming-accents">
+      <!-- Gamepad -->
+      <svg class="accent-icon gamepad" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="6" width="20" height="12" rx="5" ry="5"></rect>
+        <path d="M6 12h4m-2-2v4"></path>
+        <circle cx="15" cy="11" r="1"></circle>
+        <circle cx="18" cy="13" r="1"></circle>
+      </svg>
+      <!-- Crosshair -->
+      <svg class="accent-icon crosshair" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="22" y1="12" x2="18" y2="12"></line>
+        <line x1="6" y1="12" x2="2" y2="12"></line>
+        <line x1="12" y1="6" x2="12" y2="2"></line>
+        <line x1="12" y1="22" x2="12" y2="18"></line>
+      </svg>
+      <!-- Action buttons -->
+      <svg class="accent-icon buttons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15 8 21 9 17 14 18 21 12 17 6 21 7 14 3 9 9 8 12 2"></polygon>
+      </svg>
+    </div>
+
+
+    <div class="bg-overlay"></div>
+
+    <div class="launcher-container">
+      
+      <!-- Window Controls Dropdown (Hidden initially) -->
+      <div id="top-hover-trigger"></div>
+      <div id="window-controls-overlay">
+        <div class="window-controls-inner">
+          <div class="drag-handle">::</div>
+          <button class="win-btn" id="win-min" title="Minimize">⎯</button>
+          <button class="win-btn" id="win-mode" title="Toggle Window Mode">❒</button>
+          <button class="win-btn win-close" id="win-close" title="Close Launcher">✕</button>
+        </div>
+      </div>
+      
+      <!-- Top System Bar -->
+      <header class="system-bar">
+        <div class="profile-section" id="profile-btn" title="Edit Profile">
+          <div class="avatar logo-container">
+            <img id="profile-avatar-img" src="file:///C:/Users/dhanu/Downloads/file_000000009fa07208adc969e8603b84ba.png" alt="Bayymax Logo" />
+          </div>
+          <span class="username" id="profile-username-text">Bayymax System</span>
+        </div>
+        <div class="status-island glass-panel" id="status-island">
+          <audio id="bg-music" loop>
+            <source src="file:///C:/Users/dhanu/Desktop/Epic%20Cinematic%20Music%20-%20Wrath%20-%20The%20Musical%20Imp%20-%20The%20Musical%20Imp%20(128k).mp3" type="audio/mpeg">
+          </audio>
+          
+          <div class="status-item" id="music-toggle-btn" title="Toggle Background Music">
+            <svg class="status-svg music-icon" viewBox="0 0 24 24" width="20" height="20">
+              <path class="speaker-path" d="M11 5L6 9H2v6h4l5 4V5z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path class="wave-path" d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <path class="wave-path-outer" d="M19.07 4.93a10 10 0 0 1 0 14.14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="status-divider"></div>
+
+          <div class="status-item" id="manage-game-btn" title="Manage Selected Game" style="display: none;">
+            <svg class="status-svg" viewBox="0 0 24 24" width="20" height="20">
+              <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V11a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="status-divider" id="manage-divider" style="display: none;"></div>
+          
+          <div class="status-item" id="gpu-preference-btn" title="GPU Preference">
+            <svg class="status-svg" viewBox="0 0 24 24" width="20" height="20">
+              <rect x="2" y="3" width="20" height="14" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M7 21h10M12 17v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle id="gpu-dot" cx="12" cy="10" r="2" fill="var(--accent)"/>
+            </svg>
+            <span id="gpu-text" class="status-label">DGPU</span>
+          </div>
+          <div class="status-divider"></div>
+          <div class="status-item" id="battery-status-item">
+            <svg class="status-svg" viewBox="0 0 24 24" width="20" height="20">
+              <rect x="2" y="6" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M20 10v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <rect id="battery-fill" x="4" y="8" width="10" height="8" fill="var(--text-primary)"/>
+            </svg>
+            <span id="charging-icon" style="display: none; color: var(--accent); margin-right: 2px;">⚡</span>
+            <span id="battery-text" class="status-label">100%</span>
+          </div>
+          <div class="status-divider"></div>
+          <div class="status-item timer-item">
+            <span id="clock" class="digital-time">12:00 PM</span>
+          </div>
+        <div class="github-container" id="github-link" title="Visit Developer GitHub">
+          <svg class="github-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          <div class="github-cloud">github.com/DHNSHYDV</div>
+        </div>
+      </header>
+
+      <!-- Main Hero Area -->
+      <main class="hero-section">
+        <div class="game-info">
+          <img id="game-logo" class="game-logo" src="" alt="Game Logo" style="display: none;" />
+          <h1 id="game-title" class="game-title">Select a Game</h1>
+          <p id="game-meta" class="game-meta">Action Adventure • 120 Hours Played • Last played Yesterday</p>
+          <p id="game-description" class="game-description">Immerse yourself in stunning worlds. Press play to start your journey.</p>
+          
+          <button class="play-button glass-panel" id="play-btn">
+            <span class="icon">▶</span>
+            <span class="text">Play Now</span>
+          </button>
+        </div>
+      </main>
+
+      <!-- Horizontal Game Carousel -->
+      <section class="bottom-carousel">
+        <div class="carousel-track" id="carousel-track">
+          <!-- Game cards will be injected by JS -->
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Add/Edit Game Modal Popup -->
+    <div id="add-game-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <h2 id="modal-title">Add Local PC Game</h2>
+        <p class="modal-desc" id="modal-desc">Details for your new shortcut.</p>
+        
+        <div class="input-group">
+          <label>Selected Executable:</label>
+          <input type="text" id="input-exe" readonly />
+        </div>
+        
+        <div class="input-group">
+          <label>Game Title:</label>
+          <input type="text" id="input-title" placeholder="e.g. Cyberpunk 2077" autocomplete="off" />
+        </div>
+
+        <div class="input-group">
+          <label>Cover Art URL (Landscape):</label>
+          <input type="text" id="input-cover" placeholder="https://..." autocomplete="off" />
+        </div>
+
+        <div class="input-group">
+          <label>Background Art URL:</label>
+          <input type="text" id="input-bg" placeholder="https://..." autocomplete="off" />
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-delete" class="delete-btn hidden">Remove from Library</button>
+          <div class="spacer"></div>
+          <button id="btn-cancel" class="cancel-btn">Cancel</button>
+          <button id="btn-save" class="save-btn hidden">Add to Library</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Profile Modal Popup -->
+    <div id="edit-profile-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <h2>System Profile</h2>
+        <p class="modal-desc">Configure your launcher identity.</p>
+        
+        <div class="input-group">
+          <label>Display Name:</label>
+          <input type="text" id="input-username" placeholder="e.g. Player One" autocomplete="off" />
+        </div>
+
+        <div class="input-group">
+          <label>Select Avatar:</label>
+          <div class="avatar-picker" id="avatar-picker">
+            <img class="avatar-option preset" src="https://images.unsplash.com/photo-1618331835717-801e976710b2?auto=format&fit=crop&w=150&q=80" data-url="https://images.unsplash.com/photo-1618331835717-801e976710b2?auto=format&fit=crop&w=150&q=80" title="Neon VR" />
+            <img class="avatar-option preset" src="https://api.dicebear.com/9.x/bottts/svg?seed=Mecha&backgroundColor=15151a" data-url="https://api.dicebear.com/9.x/bottts/svg?seed=Mecha&backgroundColor=15151a" title="Mecha" />
+            <img class="avatar-option preset" src="https://api.dicebear.com/9.x/pixel-art/svg?seed=Player1&backgroundColor=15151a" data-url="https://api.dicebear.com/9.x/pixel-art/svg?seed=Player1&backgroundColor=15151a" title="8-Bit Player" />
+            <img class="avatar-option preset" src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=150&q=80" data-url="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=150&q=80" title="Retro Arcade" />
+            <img class="avatar-option preset" src="https://api.dicebear.com/9.x/adventurer/svg?seed=Samurai&backgroundColor=15151a" data-url="https://api.dicebear.com/9.x/adventurer/svg?seed=Samurai&backgroundColor=15151a" title="Samurai" />
+            
+            <div class="avatar-option custom-avatar-btn" id="btn-custom-avatar" title="Upload Local Image">+</div>
+          </div>
+          <input type="hidden" id="input-avatar" />
+          <input type="file" id="custom-avatar-upload" accept="image/*" style="display: none;" />
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-cancel-profile" class="cancel-btn">Cancel</button>
+          <button id="btn-save-profile" class="save-btn">Save Profile</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GPU Settings Modal -->
+    <div id="gpu-modal" class="modal-overlay hidden">
+      <div class="modal-content glass-panel">
+        <h2>Graphics Preference</h2>
+        <p class="modal-desc">Detected hardware on your system.</p>
+        
+        <div class="gpu-list" id="detected-gpu-list">
+          <!-- Populated by JS -->
+          <div class="gpu-item">Detecting hardware...</div>
+        </div>
+
+        <div class="input-group">
+          <label>Global Preference:</label>
+          <div class="gpu-options">
+            <button class="gpu-opt-btn selected" data-pref="0">System Default</button>
+            <button class="gpu-opt-btn" data-pref="1">Power Saving (iGPU)</button>
+            <button class="gpu-opt-btn" data-pref="2">High Performance (dGPU)</button>
+          </div>
+        </div>
+
+        <p class="modal-hint">Setting this will override Windows Graphics settings for games launched through Baymax.</p>
+
+        <div class="modal-actions">
+          <button id="btn-open-logs" class="cancel-btn">View Logs</button>
+          <button id="btn-close-gpu" class="save-btn">Done</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Audio for movement (optional if I can find a base64 or remote, skip for now to avoid errors) -->
+    
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
