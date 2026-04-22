@@ -15,6 +15,11 @@ const options = {
   overwrite: true,
   asar: true,
   prune: true,
+  win32metadata: {
+    CompanyName: 'DHNSHYDV',
+    FileDescription: 'Bayymax Launcher Executable',
+    ProductName: 'Bayymax Launcher'
+  },
   ignore: [
     /release/,
     /src/,
@@ -50,6 +55,15 @@ async function build() {
     'requested-execution-level': 'requireAdministrator',
     icon: path.resolve('assets/logo.ico')
   });
+
+  console.log('--- Phase 3.5: Code Signing Executable ---');
+  try {
+    const certName = 'CN=DHNSHYDV';
+    const psCommand = `$cert = Get-ChildItem -Path 'Cert:\\CurrentUser\\My' | Where-Object { $_.Subject -match '${certName}' } | Select-Object -First 1; Set-AuthenticodeSignature -FilePath '${exePath}' -Certificate $cert -TimestampServer 'http://timestamp.digicert.com'`;
+    execSync(`powershell -Command "${psCommand}"`, { stdio: 'inherit' });
+  } catch (err) {
+    console.error('Signing failed:', err.message);
+  }
 
   console.log('--- Phase 4: Syncing to Desktop ---');
   const desktopPath = 'C:/Users/dhanu/Desktop/Bayymax Launcher';

@@ -263,7 +263,7 @@ async function fetchGames() {
 // Helper to ensure local paths work as file:/// URLs
 function ensureFileUrl(path) {
   if (!path) return '';
-  if (path.startsWith('http')) return path;
+  if (path.startsWith('http') || path.startsWith('data:') || path.startsWith('blob:')) return path;
   if (path.startsWith('file:///')) return path;
   // Convert C:\Path to file:///C:/Path
   let sanitized = path.replace(/\\/g, '/');
@@ -344,18 +344,7 @@ function updateFocusUI(initial = false) {
   metaEl.textContent = metaDisplay;
   descEl.textContent = game.description;
 
-  // re-trigger animation
-  titleEl.style.animation = 'none';
-  metaEl.style.animation = 'none';
-  descEl.style.animation = 'none';
-  playBtn.style.animation = 'none';
-  void titleEl.offsetWidth; // trigger reflow
-  titleEl.style.animation = 'fadeUp 0.6s var(--ease-out)';
-  metaEl.style.animation = 'fadeUp 0.7s var(--ease-out)';
-  descEl.style.animation = 'fadeUp 0.8s var(--ease-out)';
-  if(!initial) playBtn.style.animation = 'fadeUp 0.9s var(--ease-out)';
-
-  // Show/Hide Manage button
+  // 1. Show/Hide Manage button
   if (btnManageGame && manageDivider) {
     if (game && !game.isAddTile) {
       btnManageGame.style.display = 'flex';
@@ -366,7 +355,7 @@ function updateFocusUI(initial = false) {
     }
   }
 
-  // 2. Crossfade Backgrounds
+  // 2. Crossfade Backgrounds (Optimized)
   const newBgUrl = `url('${game.bgImage}')`;
   if (activeBgLayer === 1) {
     bgLayer2.style.backgroundImage = newBgUrl;
@@ -380,16 +369,14 @@ function updateFocusUI(initial = false) {
     activeBgLayer = 1;
   }
 
-  // 3. Highlight Card
-  document.querySelectorAll('.game-card').forEach((el, index) => {
-    if (index === focusedIndex) {
-      el.classList.add('focused');
-    } else {
-      el.classList.remove('focused');
-    }
+  // 3. Highlight Card (Batch class updates)
+  const cards = document.querySelectorAll('.game-card');
+  cards.forEach((el, index) => {
+    if (index === focusedIndex) el.classList.add('focused');
+    else el.classList.remove('focused');
   });
 
-  // 4. Update Play Button focus state
+  // 4. Update Play Button state
   if (game.isAddTile) {
     playBtn.innerHTML = '<span class="icon">+</span><span class="text">Select File</span>';
   } else {
@@ -398,17 +385,15 @@ function updateFocusUI(initial = false) {
 
   if (isPlayButtonFocused) {
     playBtn.classList.add('focused');
-    document.getElementById(`card-${focusedIndex}`).classList.remove('focused');
+    if (cards[focusedIndex]) cards[focusedIndex].classList.remove('focused');
   } else {
     playBtn.classList.remove('focused');
   }
 
-  // 5. Move Carousel Track (Centered Overhaul)
-  const cardWidth = 300;
-  const gap = 200;
+  // 5. Move Carousel Track (High Performance)
+  const cardWidth = 320;
+  const gap = 80;
   const itemTotalWidth = cardWidth + gap;
-  
-  // Calculation to keep the focused item perfectly in the center of the screen
   const screenCenter = window.innerWidth / 2;
   const centeredOffset = screenCenter - (itemTotalWidth / 2);
   const offset = centeredOffset - (focusedIndex * itemTotalWidth);
