@@ -915,15 +915,24 @@ body {
 }
 
 /* --- Game Management & Stealth Mode --- */
-@keyframes pulseGlow {
-  0% { box-shadow: 0 0 5px var(--accent-glow); transform: rotate(0deg); }
-  50% { box-shadow: 0 0 15px var(--accent-glow); transform: rotate(180deg); }
-  100% { box-shadow: 0 0 5px var(--accent-glow); transform: rotate(360deg); }
+#manage-game-btn {
+  transition: transform 0.3s var(--ease-out), color 0.3s;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+#manage-game-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: scale(1.1);
+  color: var(--accent);
+}
+
+#manage-game-btn svg {
+  transition: transform 0.4s var(--ease-out);
 }
 
 #manage-game-btn:hover svg {
-  animation: pulseGlow 4s infinite linear;
-  color: var(--accent);
+  transform: rotate(45deg); /* Simple subtle rotation instead of continuous animation */
 }
 
 .delete-btn {

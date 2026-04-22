@@ -544,7 +544,6 @@ btnDelete.addEventListener('click', async () => {
     }
   }
 });
-
 btnManageGame.addEventListener('click', () => {
   const activeGame = games[focusedIndex];
   if (!activeGame || activeGame.isAddTile) return;

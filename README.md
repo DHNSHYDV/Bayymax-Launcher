@@ -14,12 +14,18 @@ A high-fidelity, cinema-inspired PC game launcher designed for the ultimate "Big
 - **🔋 System Sync**: Intelligent monitoring of battery life, GPU preferences, and clock sync.
 - **🛡️ Enhanced Process Tracker**: New shell-based engine that handles complex third-party launchers (Rockstar, Steam, etc.) with perfect reliability.
 
-## 🆕 What's New in v1.1.3
+## 🆕 What's New
+### v1.1.4 (The "Clean & Polish" Update)
+- **UI Refinement:** Cleaned up the status bar by removing those weird gaps and redundant dividers.
+- **Icon Glow-up:** Swapped the old settings icon for a much cleaner, minimalist gear.
+- **Animation Fix:** Removed the distracting "rotating glow" and replaced it with a subtle, professional hover effect. No more squary boxes!
+- **Symmetry:** Fixed the layout spacing in the top bar to make everything feel balanced and premium.
 
-- **Enhanced Process Tracking**: Implemented a robust shell-based launching system to handle complex game launchers more reliably.
-- **UI Humanization**: Removed overly neon "AI-ish" aesthetics for a cleaner, professional desktop design.
-- **GPU Preference Support**: Added the ability to select and remember GPU preferences (iGPU/dGPU) for each game.
-- **Stability**: Fixed crashes related to process-tree monitoring and focus management.
+### v1.1.3
+- **Universal Game Tracking:** Rewrote the process monitoring system from the ground up. Launcher now correctly detects when heavy AAA titles (GTA V, RDR2, etc.) are actually closed, even through third-party launchers.
+- **GPU Preference Engine:** Added a dedicated hardware preference menu. You can now force games to use your Dedicated GPU (High Performance) or Integrated Graphics (Power Saving) directly from the launcher.
+- **Admin Elevation:** Built-in manifest injection to ensure games always have the permissions they need to track playtime.
+- **Visuals:** Refined glassmorphism and transition speeds for a snappier feel.
 
 
 ## 🛠️ Technology Stack
