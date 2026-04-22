@@ -26,7 +26,9 @@ const options = {
     /node_modules\/\.bin/,
     /README\.md/,
     /vite\.config\.js/,
-    /\.git/
+    /\.git/,
+    /\.zip$/,
+    /\.cer$/
   ]
 };
 

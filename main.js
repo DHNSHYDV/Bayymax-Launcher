@@ -284,18 +284,7 @@ function renderCarousel() {
       if (isModalOpen) return;
       if (focusedIndex === index) {
         // Already focused, clicking again acts as 'Play'
-        if (game.isAddTile) {
-          triggerAddGameFlow();
-        } else {
-          playBtn.innerText = 'Starting...';
-          if (window.electronAPI && game.exePath) {
-            const gpuPreference = localStorage.getItem('baymax_gpu_preference') || '0';
-            window.electronAPI.launchGame({ exePath: game.exePath, gpuPreference });
-          }
-          setTimeout(() => {
-            playBtn.innerHTML = '<span class="icon">▶</span><span class="text">Play Now</span>';
-          }, 2000);
-        }
+        launchActiveGame();
       } else {
         focusedIndex = index;
         isPlayButtonFocused = false;
@@ -445,29 +434,37 @@ async function triggerAddGameFlow() {
   }
 }
 
-playBtn.addEventListener('click', () => {
+async function launchActiveGame() {
   const activeGame = games[focusedIndex];
-  
+  if (!activeGame) return;
+
   if (activeGame.isAddTile) {
     triggerAddGameFlow();
   } else {
     playBtn.innerText = 'Starting...';
-    // Mute music on launch
+    
+    // RELIABLE AUDIO MUTING
     const music = document.getElementById('bg-music');
-    if (music) music.pause();
+    if (music) {
+      music.volume = 0;
+      music.pause();
+    }
+    
     const musicBtn = document.getElementById('music-toggle-btn');
     if (musicBtn) musicBtn.classList.remove('playing');
 
-    // BOOT SYSTEM
     if (window.electronAPI && activeGame.exePath) {
       const gpuPreference = localStorage.getItem('baymax_gpu_preference') || '0';
       window.electronAPI.launchGame({ exePath: activeGame.exePath, gpuPreference });
     }
+
     setTimeout(() => {
       playBtn.innerHTML = '<span class="icon">▶</span><span class="text">Play Now</span>';
     }, 2000);
   }
-});
+}
+
+playBtn.addEventListener('click', launchActiveGame);
 
 btnCancel.addEventListener('click', () => {
   modal.classList.add('hidden');
@@ -787,28 +784,7 @@ window.addEventListener('keydown', (e) => {
     }
   } else if (e.key === 'Enter') {
     if (isPlayButtonFocused) {
-      const activeGame = games[focusedIndex];
-      
-      if (activeGame.isAddTile) {
-        triggerAddGameFlow();
-      } else {
-        playBtn.innerText = 'Starting...';
-        // Mute music on launch
-        const music = document.getElementById('bg-music');
-        if (music) music.pause();
-        const musicBtn = document.getElementById('music-toggle-btn');
-        if (musicBtn) musicBtn.classList.remove('playing');
-
-        // BOOT SYSTEM
-        if (window.electronAPI && activeGame.exePath) {
-          const gpuPreference = localStorage.getItem('baymax_gpu_preference') || '0';
-          window.electronAPI.launchGame({ exePath: activeGame.exePath, gpuPreference });
-        }
-        setTimeout(() => {
-          playBtn.innerHTML = '<span class="icon">▶</span><span class="text">Play Now</span>';
-        }, 2000);
-      }
-      
+      launchActiveGame();
     } else {
       // If pressing enter on a card, shift focus up to play button
       isPlayButtonFocused = true;

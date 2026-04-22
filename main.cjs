@@ -220,70 +220,85 @@ ipcMain.handle('store:updateGame', async (event, { oldExePath, updatedGame }) =>
   }
 });
 
-// IPC: Launch Game
-ipcMain.handle('os:launchGame', async (event, { exePath, gpuPreference }) => {
-  logToFile(`OS: Request to launch: ${exePath}`);
-  
-  if (gpuPreference && gpuPreference !== '0') {
-    logToFile(`OS: Setting GPU Preference: ${gpuPreference}`);
-    await setGpuPreference(exePath, gpuPreference);
-  }
+// --- UNIVERSAL PROCESS ENGINE ---
+process.on('uncaughtException', (err) => {
+  logToFile(`CRITICAL: Uncaught Exception: ${err.message}`);
+});
 
-  const startTime = Date.now();
-  if (mainWindow) mainWindow.minimize();
+ipcMain.handle('os:launchGame', async (event, { exePath, gpuPreference }) => {
+  logToFile(`OS: Universal Launch - ${exePath}`);
   
-  logToFile(`OS: Spawning child process (shell: true)`);
   try {
-    if (!fs.existsSync(exePath)) {
-      throw new Error(`Executable not found at: ${exePath}`);
+    if (gpuPreference && gpuPreference !== '0') {
+      await setGpuPreference(exePath, gpuPreference);
     }
 
-    const child = spawn(`"${exePath}"`, [], { 
-      cwd: path.dirname(exePath),
-      detached: true,
-      shell: true,
-      stdio: 'ignore'
-    });
-
-    child.on('error', (err) => {
-      logToFile(`OS: ERROR spawning game: ${err.message}`);
-      if (mainWindow) {
-        mainWindow.show();
-        mainWindow.focus();
-        mainWindow.webContents.send('os:launch-error', err.message);
-      }
-    });
+    const startTime = Date.now();
+    const exeName = path.basename(exePath);
+    const procName = exeName.replace(/\.exe$/i, '');
     
-    child.on('exit', (code) => {
-      logToFile(`OS: Game exited with code: ${code}`);
+    if (mainWindow) {
+      mainWindow.maximize();
+      mainWindow.blur(); // Yield focus so the game window can come forward
+      mainWindow.webContents.send('os:game-launching');
+    }
+    
+    if (!fs.existsSync(exePath)) {
+      throw new Error(`File not found: ${exePath}`);
+    }
+
+    // Using 'start' is the most compatible way to launch complex Windows games.
+    // It allows the Windows shell to handle launchers and window focus correctly.
+    exec(`start "" "${exePath}"`, { cwd: path.dirname(exePath) });
+
+    let exitHandled = false;
+    const handleExit = () => {
+      if (exitHandled) return;
+      exitHandled = true;
+      logToFile(`OS: Session complete: ${procName}`);
       if (mainWindow) {
-        mainWindow.show();
+        mainWindow.maximize();
         mainWindow.focus();
         mainWindow.webContents.send('os:game-closed');
       }
       
-      const sessionDurationMs = Date.now() - startTime;
-      logToFile(`OS: Session duration: ${Math.round(sessionDurationMs/1000)}s`);
-      
+      const duration = Date.now() - startTime;
       try {
         const data = fs.readFileSync(dbPath, 'utf-8');
         const games = JSON.parse(data);
-        const gameIndex = games.findIndex(g => g.exePath === exePath);
-        
-        if (gameIndex !== -1) {
-          games[gameIndex].playtimeMs = (games[gameIndex].playtimeMs || 0) + sessionDurationMs;
+        const idx = games.findIndex(g => g.exePath === exePath);
+        if (idx !== -1) {
+          games[idx].playtimeMs = (games[idx].playtimeMs || 0) + duration;
           fs.writeFileSync(dbPath, JSON.stringify(games, null, 2));
-          logToFile(`OS: Playtime updated for ${games[gameIndex].title}`);
         }
-      } catch (error) {
-        logToFile(`OS: ERROR updating playtime: ${error.message}`);
-      }
-    });
+      } catch (e) {}
+    };
+
+    // UNIVERSAL SENTINEL: Tracks the process name AND its children
+    const pollInterval = setInterval(() => {
+      // Check for any process that matches the EXE name OR is a child of the original spawn
+      // This handles "Launcher -> Game" transitions
+      const psCommand = `powershell "$p = Get-Process -Name '${procName}' -ErrorAction SilentlyContinue; if(!$p){ $p = Get-Process | Where-Object { $_.ParentProcessId -eq ${child.pid} } }; if($p){ echo 'RUNNING' }"`;
+      
+      exec(psCommand, (err, stdout) => {
+        const isRunning = stdout && stdout.includes('RUNNING');
+        if (!isRunning) {
+          // Double check with tasklist just in case
+          exec(`tasklist /FI "IMAGENAME eq ${exeName}"`, (err2, stdout2) => {
+            const isStillRunning = stdout2 && stdout2.toLowerCase().includes(exeName.toLowerCase());
+            if (!isStillRunning) {
+              clearInterval(pollInterval);
+              handleExit();
+            }
+          });
+        }
+      });
+    }, 5000);
 
     child.unref();
     return true;
   } catch (err) {
-    logToFile(`OS: CRITICAL EXCEPTION during spawn: ${err.message}`);
+    logToFile(`OS: Universal Launch Error: ${err.message}`);
     return false;
   }
 });
