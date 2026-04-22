@@ -37,10 +37,10 @@
   --glass-bg: rgba(25, 25, 30, 0.4);
   --glass-border: rgba(255, 255, 255, 0.1);
   --ease-spring: cubic-bezier(0.25, 1.25, 0.5, 1); /* Smoother, more elegant spring */
-  --ease-out: cubic-bezier(0.2, 0, 0, 1); /* Ultra-premium fluid ease */
-  --transition-fast: 0.2s var(--ease-out);
-  --transition-normal: 0.5s var(--ease-out);
-  --transition-slow: 0.9s var(--ease-out);
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1); /* Standard high-end ease */
+  --transition-fast: 0.15s var(--ease-out);
+  --transition-normal: 0.3s var(--ease-out);
+  --transition-slow: 0.6s var(--ease-out);
 }
 
 * {
@@ -535,46 +535,37 @@ body {
 /* --- Carousel Area --- */
 .bottom-carousel {
   position: relative;
-  height: 320px;
-  margin-bottom: 2rem;
+  height: 280px;
+  margin-bottom: 1.5rem;
   overflow: visible; 
-  perspective: 2000px; /* Enable 3D depth */
 }
 
 .carousel-track {
   display: flex;
-  gap: 80px; /* Tighter for more overlap/parallax potential */
+  gap: 150px; /* More standard spacing */
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) translate3d(0,0,0);
-  transition: transform 0.9s cubic-bezier(0.2, 0, 0, 1); /* Massive high-end glide */
+  transform: translateY(-50%);
+  transition: transform 0.5s var(--ease-out);
   will-change: transform;
   padding-left: 0;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
 }
 
 /* --- Game Cards --- */
 .game-card {
-  width: 320px;
+  width: 300px; /* Reverted to 300 */
   height: 180px;
-  border-radius: 20px;
+  border-radius: 16px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   position: relative;
   overflow: hidden;
-  /* Animating ONLY transform and opacity for 60fps performance */
-  transition: 
-    transform 0.9s cubic-bezier(0.2, 0, 0, 1),
-    opacity 0.7s var(--ease-out),
-    border-color 0.4s ease;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s, border-color 0.3s;
   cursor: pointer;
   transform-origin: center center;
-  will-change: transform, opacity;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
-  opacity: 0.4;
-  transform: scale(0.8) translateZ(-200px) rotateY(15deg); /* Pushed back in 3D space */
-  backface-visibility: hidden;
+  will-change: transform;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  opacity: 1; /* Normal visibility */
 }
 
 .game-card img {
@@ -607,11 +598,10 @@ body {
 
 /* Card Focused State */
 .game-card.focused {
-  transform: scale(1.6) translateY(-40px) translateZ(300px) rotateY(0deg); /* Full pop-out */
-  border: 2px solid var(--accent);
-  box-shadow: 0 50px 120px rgba(0,0,0,0.8);
+  transform: scale(1.4) translateY(-30px); /* Simple, clean scale */
+  border: 3px solid var(--accent);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 30px var(--accent-glow);
   z-index: 100;
-  opacity: 1;
 }
 
 /* Glassy Tray Shadow Under Focused Tile */

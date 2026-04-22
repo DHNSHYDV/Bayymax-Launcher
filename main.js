@@ -344,6 +344,17 @@ function updateFocusUI(initial = false) {
   metaEl.textContent = metaDisplay;
   descEl.textContent = game.description;
 
+  // re-trigger animation
+  titleEl.style.animation = 'none';
+  metaEl.style.animation = 'none';
+  descEl.style.animation = 'none';
+  playBtn.style.animation = 'none';
+  void titleEl.offsetWidth; // trigger reflow
+  titleEl.style.animation = 'fadeUp 0.6s var(--ease-out)';
+  metaEl.style.animation = 'fadeUp 0.7s var(--ease-out)';
+  descEl.style.animation = 'fadeUp 0.8s var(--ease-out)';
+  if(!initial) playBtn.style.animation = 'fadeUp 0.9s var(--ease-out)';
+
   // 1. Show/Hide Manage button
   if (btnManageGame && manageDivider) {
     if (game && !game.isAddTile) {
@@ -390,15 +401,15 @@ function updateFocusUI(initial = false) {
     playBtn.classList.remove('focused');
   }
 
-  // 5. Move Carousel Track (High Performance)
-  const cardWidth = 320;
-  const gap = 80;
+  // 5. Move Carousel Track (Standard Optimized)
+  const cardWidth = 300;
+  const gap = 150;
   const itemTotalWidth = cardWidth + gap;
   const screenCenter = window.innerWidth / 2;
   const centeredOffset = screenCenter - (itemTotalWidth / 2);
   const offset = centeredOffset - (focusedIndex * itemTotalWidth);
   
-  track.style.transform = `translateX(${offset}px) translate3d(0,0,0)`;
+  track.style.transform = `translateX(${offset}px)`;
 }
 
 async function triggerAddGameFlow() {
