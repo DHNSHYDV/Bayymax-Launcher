@@ -9,7 +9,7 @@
     "electron": "electron .",
     "build": "vite build",
     "preview": "vite preview",
-    "dist": "powershell -Command \"try { Get-Process 'Bayymax Launcher' -ErrorAction SilentlyContinue | Stop-Process -Force } catch {}; vite build; if ($?) { electron-builder }; powershell -Command \\\"Copy-Item -Path 'release/win-unpacked/*' -Destination 'C:/Users/dhanu/Desktop/Bayymax Launcher' -Recurse -Force\\\"\""
+    "dist": "node build.js"
   },
   "build": {
     "appId": "com.stellar.launcher",

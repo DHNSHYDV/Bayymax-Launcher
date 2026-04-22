@@ -69,6 +69,7 @@ function createSplashWindow() {
   });
 
   splashWindow.loadFile('splash.html');
+  splashWindow.maximize();
 }
 
 function createWindow() {

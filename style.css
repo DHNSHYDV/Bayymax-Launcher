@@ -689,11 +689,11 @@ body {
 
 .modal-content {
   background: var(--bg-color);
-  padding: 3rem;
-  border-radius: 20px;
+  padding: 2.5rem;
+  border-radius: 12px;
   width: 500px;
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,229,255,0.05);
+  border: 1px solid #333333;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.9);
 }
 
 .modal-content h2 { margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 800;}
@@ -708,7 +708,7 @@ body {
 
 .input-group label {
   font-size: 0.9rem;
-  color: var(--accent);
+  color: var(--text-secondary);
   margin-bottom: 0.5rem;
 }
 
@@ -724,8 +724,8 @@ body {
 }
 
 .input-group input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 10px var(--accent-glow);
+  border-color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 .modal-actions {
@@ -754,13 +754,13 @@ body {
 .cancel-btn:hover { background: rgba(255,255,255,0.1); }
 
 .save-btn {
-  background: var(--accent);
-  color: #000;
+  background: #ffffff;
+  color: #000000;
 }
 
 .save-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px var(--accent-glow);
+  transform: scale(1.02);
+  background: #e0e0e0;
 }
 .save-btn:disabled {
   opacity: 0.5;
@@ -854,32 +854,24 @@ body {
 }
 
 .gpu-list {
-  background: rgba(0,0,0,0.3);
-  border-radius: 12px;
-  padding: 1rem;
+  background: #151515;
+  border-radius: 6px;
+  padding: 0.5rem;
   margin-bottom: 2rem;
   max-height: 150px;
   overflow-y: auto;
-  border: 1px solid var(--glass-border);
+  border: 1px solid #333333;
 }
 
 .gpu-item {
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid #222222;
+  color: #eeeeee;
 }
 
 .gpu-item:last-child { border-bottom: none; }
-
-.gpu-item::before {
-  content: '⚡';
-  font-size: 0.8rem;
-  color: var(--accent);
-}
 
 .gpu-options {
   display: flex;
@@ -889,28 +881,28 @@ body {
 
 .gpu-opt-btn {
   flex: 1;
-  padding: 0.7rem;
-  border-radius: 8px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--glass-border);
-  color: var(--text-secondary);
+  padding: 0.8rem;
+  border-radius: 6px;
+  background: #1c1c1c;
+  border: 1px solid #333333;
+  color: #aaaaaa;
   font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
 .gpu-opt-btn:hover {
-  background: rgba(255,255,255,0.1);
-  color: white;
+  background: #2a2a2a;
+  color: #ffffff;
 }
 
 .gpu-opt-btn.selected {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-  box-shadow: 0 0 15px var(--accent-glow);
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .modal-hint {

@@ -1,0 +1,6 @@
+Release v1.1.0 - Clean UI & Seamless Cinematic Boot
+
+Changes in this update:
+- Humanized UI Aesthetics: Stripped out all over-the-top 'flashy' neon glows, floating icons, and glass block backgrounds from the modals (such as the Global Graphics Preference list). The interface is now modeled against premium standard desktop application styling, featuring sharper corners, proper flat OS grays, and professional border rendering.
+- AAA Splash Intro Sequence: Completely reworked the background boot orchestration. The native Electron splash window now maximizes into absolute black space, smoothly fades out the custom static logo into nothingness, and drops perfectly into the secondary video layer without any lag spikes or broken bounding boxes flashing. 
+- Restored Admin Hooks & Launcher Build Process: Fixed the `npm run dist` pipeline to default to the custom `node build.js` compiler, permanently securing the custom `requireAdministrator` manifest bindings and replacing the default node executable icon with the Bayymax insignia on Desktop deployment.
