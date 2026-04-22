@@ -12,6 +12,15 @@ A high-fidelity, cinema-inspired PC game launcher designed for the ultimate "Big
 - **⚡ Performance First**: GPU-accelerated carousel with premium cubic-bezier animations and unmuted cinematic transitions.
 - **🎮 Controller-Friendly UI**: Responsive 10-foot interface with glassmorphic aesthetics and dynamic background crossfaders.
 - **🔋 System Sync**: Intelligent monitoring of battery life, GPU preferences, and clock sync.
+- **🛡️ Enhanced Process Tracker**: New shell-based engine that handles complex third-party launchers (Rockstar, Steam, etc.) with perfect reliability.
+
+## 🆕 What's New in v1.1.3
+
+- **Enhanced Process Tracking**: Implemented a robust shell-based launching system to handle complex game launchers more reliably.
+- **UI Humanization**: Removed overly neon "AI-ish" aesthetics for a cleaner, professional desktop design.
+- **GPU Preference Support**: Added the ability to select and remember GPU preferences (iGPU/dGPU) for each game.
+- **Stability**: Fixed crashes related to process-tree monitoring and focus management.
+
 
 ## 🛠️ Technology Stack
 
